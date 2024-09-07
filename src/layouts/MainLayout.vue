@@ -200,6 +200,10 @@
             resultMonth: 0,
             resultYear: 0
         }
+
+        day.value = ''
+        month.value = ''
+        year.value = ''
         showResult.value = false;
     }
 
