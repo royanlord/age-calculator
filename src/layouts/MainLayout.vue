@@ -47,12 +47,12 @@
             </button>
         </div>
 
-        <div :class="`${showResult ? 'block':'block'} mt-16 text-lg`">
+        <div :class="`${showResult ? 'block':'hidden'} mt-16 text-lg`">
             <h1 class="text-4xl font-semibold text-center">Result</h1>
             <div class="grid grid-cols-1 gap-y-2 mx-auto my-6 bg-white py-5 rounded-lg">
                 <div class="flex flex-col text-center">
                     <span>Born On</span>
-                    <span class="font-bold text-orange-500">{{ born.format('dddd, MMMM D, YYYY') }}</span>
+                    <span class="font-bold text-orange-500">{{ born !== '-' ? born.format('dddd, MMMM D, YYYY') : '-' }}</span>
                 </div>
                 <div class="flex flex-col text-center">
                     <span>Date Today</span>
