@@ -47,7 +47,7 @@
             </button>
         </div>
 
-        <div :class="`${showResult ? 'block':'block'} mt-12 text-lg`">
+        <div :class="`${showResult ? 'block':'hidden'} mt-12 text-lg`">
             <div>
                 <h1 class="text-4xl text-center">Age</h1>
                 <div class="text-center w-9/12 mx-auto mt-4">
@@ -147,31 +147,7 @@
         year.value = input.value;
     }
 
-    const checkAge = () => {
-        if (!(parseInt(day.value)) || !(parseInt(month.value)) || !(parseInt(year.value))) {
-            alert('Please enter a valid date')
-            return;
-        }
-
-
-        const birthDate = dayjs(`${year.value}-${month.value}-${day.value}`);
-
-
-        const ageYears = now.diff(birthDate, 'year');
-        const updatedBirthDate = birthDate.add(ageYears, 'year');
-
-        const ageMonths = now.diff(birthDate, 'month');
-        const updatedBirthDateWithMonths = updatedBirthDate.add(ageMonths, 'month');
-
-        const ageDays = now.diff(birthDate, 'day');
-
-        ageLives.value = {
-            resultDay: ageDays,
-            resultMonth: ageMonths,
-            resultYear: ageYears
-        }
-
-        // Calculate age for the current year
+    const calculateCurrentYearAge = () => {
         const currentYearBirthDate = dayjs(`${yearNow}-${month.value}-${day.value}`);
         const currentYearAgeMonths = now.diff(currentYearBirthDate, 'month');
         const updatedCurrentYearBirthDateWithMonths = currentYearBirthDate.add(currentYearAgeMonths, 'month');
@@ -180,8 +156,43 @@
         ages.value = {
             resultDay: currentYearAgeDays,
             resultMonth: currentYearAgeMonths,
-            resultYear: ageYears
+            resultYear: ageLives.value.resultYear
         }
+    }
+
+    const calculateAge = (birthDate: dayjs.Dayjs) => {
+        const ageYears = now.diff(birthDate, 'year');
+        const updatedBirthDate = birthDate.add(ageYears, 'year');
+
+        const ageMonths = now.diff(birthDate, 'month');
+        const updatedBirthDateWithMonths = updatedBirthDate.add(ageMonths, 'month');
+
+        const ageDays = now.diff(birthDate, 'day');
+
+        return {
+            resultDay: ageDays,
+            resultMonth: ageMonths,
+            resultYear: ageYears
+        };
+    }
+
+    const checkAge = () => {
+        if (!(parseInt(day.value)) || !(parseInt(month.value)) || !(parseInt(year.value))) {
+            alert('Please enter a valid date')
+            return
+        }
+
+        if ((year.value).length < 4) {
+            alert('Year must be at least 4 digits!')
+            return
+        }
+
+
+        const birthDate = dayjs(`${year.value}-${month.value}-${day.value}`);
+
+        ageLives.value = calculateAge(birthDate)
+
+        calculateCurrentYearAge()
 
         showResult.value = true
         
