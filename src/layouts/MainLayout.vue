@@ -273,6 +273,8 @@
     }
 
     const checkAge = () => {
+        const birthDate = dayjs(`${year.value}-${month.value}-${day.value}`);
+        
         if (!(parseInt(day.value)) || !(parseInt(month.value)) || !(parseInt(year.value))) {
             alert('Please enter a valid date')
             return
@@ -284,7 +286,11 @@
         }
 
 
-        const birthDate = dayjs(`${year.value}-${month.value}-${day.value}`);
+        if (birthDate.isAfter(now, 'day')) {
+            alert('Date cannot be in the future');
+            return;
+        }
+
         born.value = birthDate
 
         age.value = calculateAge(birthDate)
